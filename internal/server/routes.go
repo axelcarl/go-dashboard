@@ -26,6 +26,8 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	r.Get("/health", s.healthHandler)
 
+	r.Get("/health/db", s.dbHealthHandler)
+
 	return r
 }
 
@@ -42,6 +44,18 @@ func (s *Server) HelloWorldHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) healthHandler(w http.ResponseWriter, r *http.Request) {
+	resp := make(map[string]string)
+	resp["message"] = "App is running"
+
+	jsonResp, err := json.Marshal(resp)
+	if err != nil {
+		log.Fatalf("error handling JSON marshal. Err: %v", err)
+	}
+
+	_, _ = w.Write(jsonResp)
+}
+
+func (s *Server) dbHealthHandler(w http.ResponseWriter, r *http.Request) {
 	jsonResp, _ := json.Marshal(s.db.Health())
 	_, _ = w.Write(jsonResp)
 }
