@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -29,11 +29,12 @@ type service struct {
 }
 
 var (
-	dbname     = os.Getenv("BLUEPRINT_DB_DATABASE")
+	database   = os.Getenv("BLUEPRINT_DB_DATABASE")
 	password   = os.Getenv("BLUEPRINT_DB_PASSWORD")
 	username   = os.Getenv("BLUEPRINT_DB_USERNAME")
 	port       = os.Getenv("BLUEPRINT_DB_PORT")
 	host       = os.Getenv("BLUEPRINT_DB_HOST")
+	schema     = os.Getenv("BLUEPRINT_DB_SCHEMA")
 	dbInstance *service
 )
 
@@ -42,18 +43,11 @@ func New() Service {
 	if dbInstance != nil {
 		return dbInstance
 	}
-
-	// Opening a driver typically will not attempt to connect to the database.
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", username, password, host, port, dbname))
+	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=require&channel_binding=require&search_path=%s", username, password, host, port, database, schema)
+	db, err := sql.Open("pgx", connStr)
 	if err != nil {
-		// This will not be a connection error, but a DSN parse error or
-		// another initialization error.
 		log.Fatal(err)
 	}
-	db.SetConnMaxLifetime(0)
-	db.SetMaxIdleConns(50)
-	db.SetMaxOpenConns(50)
-
 	dbInstance = &service{
 		db: db,
 	}
@@ -95,6 +89,7 @@ func (s *service) Health() map[string]string {
 	if dbStats.OpenConnections > 40 { // Assuming 50 is the max for this example
 		stats["message"] = "The database is experiencing heavy load."
 	}
+
 	if dbStats.WaitCount > 1000 {
 		stats["message"] = "The database has a high number of wait events, indicating potential bottlenecks."
 	}
@@ -115,6 +110,6 @@ func (s *service) Health() map[string]string {
 // If the connection is successfully closed, it returns nil.
 // If an error occurs while closing the connection, it returns the error.
 func (s *service) Close() error {
-	log.Printf("Disconnected from database: %s", dbname)
+	log.Printf("Disconnected from database: %s", database)
 	return s.db.Close()
 }
