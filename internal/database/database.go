@@ -19,6 +19,9 @@ type Service interface {
 	// The keys and values in the map are service-specific.
 	Health() map[string]string
 
+	// Exposes the underlying database.
+	DB() *sql.DB
+
 	// Close terminates the database connection.
 	// It returns an error if the connection cannot be closed.
 	Close() error
@@ -35,6 +38,7 @@ var (
 	port       = os.Getenv("BLUEPRINT_DB_PORT")
 	host       = os.Getenv("BLUEPRINT_DB_HOST")
 	schema     = os.Getenv("BLUEPRINT_DB_SCHEMA")
+	sslmode    = os.Getenv("DB_SSLMODE")
 	dbInstance *service
 )
 
@@ -43,7 +47,7 @@ func New() Service {
 	if dbInstance != nil {
 		return dbInstance
 	}
-	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=require&channel_binding=require&search_path=%s", username, password, host, port, database, schema)
+	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=%s&search_path=%s", username, password, host, port, database, sslmode, schema)
 	db, err := sql.Open("pgx", connStr)
 	if err != nil {
 		log.Fatal(err)
@@ -103,6 +107,10 @@ func (s *service) Health() map[string]string {
 	}
 
 	return stats
+}
+
+func (s *service) DB() *sql.DB {
+	return s.db
 }
 
 // Close closes the database connection.

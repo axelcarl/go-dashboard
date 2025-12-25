@@ -1,0 +1,8 @@
+CREATE TABLE payments (
+    id SERIAL PRIMARY KEY,
+    sender VARCHAR(255),
+    recipient VARCHAR(255),
+    amount DECIMAL(10, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

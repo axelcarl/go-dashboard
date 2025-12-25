@@ -74,6 +74,7 @@ func TestNew(t *testing.T) {
 }
 
 func TestHealth(t *testing.T) {
+	t.Setenv("DB_SSLMODE", "none")
 	srv := New()
 
 	stats := srv.Health()

@@ -10,20 +10,26 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 
 	"go-dashboard/internal/database"
+	"go-dashboard/internal/repository"
 )
 
 type Server struct {
 	port int
 
 	db database.Service
+
+	payment *repository.PaymentRepository
 }
 
 func NewServer() *http.Server {
 	port, _ := strconv.Atoi(os.Getenv("PORT"))
+	db := database.New()
 	NewServer := &Server{
 		port: port,
 
-		db: database.New(),
+		db: db,
+
+		payment: repository.NewPaymentRepository(db.DB()),
 	}
 
 	// Declare Server config
