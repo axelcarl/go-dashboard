@@ -5,14 +5,14 @@
 package sqlc
 
 import (
-	"database/sql"
+	"time"
 )
 
 type Payment struct {
 	ID        int32
-	Sender    sql.NullString
-	Recipient sql.NullString
-	Amount    sql.NullString
-	CreatedAt sql.NullTime
-	UpdatedAt sql.NullTime
+	Sender    string
+	Recipient string
+	Amount    string
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }

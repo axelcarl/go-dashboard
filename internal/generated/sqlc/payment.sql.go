@@ -9,13 +9,13 @@ import (
 	"context"
 )
 
-const getPayment = `-- name: GetPayment :one
+const getPaymentByID = `-- name: GetPaymentByID :one
 SELECT id, sender, recipient, amount, created_at, updated_at FROM payments
 WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetPayment(ctx context.Context, id int32) (Payment, error) {
-	row := q.db.QueryRowContext(ctx, getPayment, id)
+func (q *Queries) GetPaymentByID(ctx context.Context, id int32) (Payment, error) {
+	row := q.db.QueryRowContext(ctx, getPaymentByID, id)
 	var i Payment
 	err := row.Scan(
 		&i.ID,

@@ -10,7 +10,7 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 
 	"go-dashboard/internal/database"
-	"go-dashboard/internal/repository"
+	"go-dashboard/internal/generated/sqlc"
 )
 
 type Server struct {
@@ -18,7 +18,7 @@ type Server struct {
 
 	db database.Service
 
-	payment *repository.PaymentRepository
+	query *sqlc.Queries
 }
 
 func NewServer() *http.Server {
@@ -29,7 +29,7 @@ func NewServer() *http.Server {
 
 		db: db,
 
-		payment: repository.NewPaymentRepository(db.DB()),
+		query: sqlc.New(db.DB()),
 	}
 
 	// Declare Server config
