@@ -1,3 +1,14 @@
+## [1.2.0](https://github.com/axelcarl/go-dashboard/compare/v1.1.0...v1.2.0) (2025-12-28)
+
+### Features
+
+* add frontend payment support ([ae38f32](https://github.com/axelcarl/go-dashboard/commit/ae38f324302a97e76accc2239a5d2dc05558db74))
+* add payment feature ([d347351](https://github.com/axelcarl/go-dashboard/commit/d3473518f04d811a6fe52fd51a8b7e2b8e844d53))
+
+### Bug Fixes
+
+* add origin env ([b1075cc](https://github.com/axelcarl/go-dashboard/commit/b1075cc68c2efd3d0c61a2ac87ba66135a081896))
+
 ## [1.1.0](https://github.com/axelcarl/go-dashboard/compare/v1.0.0...v1.1.0) (2025-12-24)
 
 ### Features
