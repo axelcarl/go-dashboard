@@ -20,7 +20,8 @@ type PaymentHandler struct {
 func NewPaymentHandler(r *chi.Mux, service *service.PaymentService) *PaymentHandler {
 	handler := PaymentHandler{service: service}
 
-	r.Route("/payment", func(r chi.Router) {
+	r.Route("/payments", func(r chi.Router) {
+		r.Get("/", handler.GetPayments)
 		r.Get("/{id}", handler.GetPaymentByID)
 	})
 
@@ -52,5 +53,18 @@ func (ph *PaymentHandler) GetPaymentByID(w http.ResponseWriter, r *http.Request)
 	}
 
 	response := mapper.ToPaymentResponse(payment.Result)
+	render.JSON(w, r, response)
+}
+
+func (ph *PaymentHandler) GetPayments(w http.ResponseWriter, r *http.Request) {
+	payments, err := ph.service.List()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		response := response.ErrorResponse{Error: "Something went wrong when fetching payments"}
+		render.JSON(w, r, response)
+		return
+	}
+
+	response := mapper.ToPaymentListResponse(payments.Result)
 	render.JSON(w, r, response)
 }

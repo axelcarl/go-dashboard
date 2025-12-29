@@ -27,6 +27,22 @@ func (repo *SqlcPaymentRepository) FindByID(id int) (*entity.Payment, error) {
 	return fromSqlcPaymentRow(&row), nil
 }
 
+func (repo *SqlcPaymentRepository) List() ([]*entity.Payment, error) {
+	ctx := context.Background()
+
+	rows, err := repo.queries.GetPayments(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	payments := make([]*entity.Payment, len(rows))
+	for i, row := range rows {
+		payments[i] = fromSqlcPaymentRow(&row)
+	}
+
+	return payments, nil
+}
+
 func fromSqlcPaymentRow(row *sqlc.Payment) *entity.Payment {
 	amount, _ := strconv.ParseFloat(row.Amount, 64)
 	payment := &entity.Payment{

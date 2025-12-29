@@ -27,3 +27,38 @@ func (q *Queries) GetPaymentByID(ctx context.Context, id int32) (Payment, error)
 	)
 	return i, err
 }
+
+const getPayments = `-- name: GetPayments :many
+SELECT id, sender, recipient, amount, created_at, updated_at FROM payments
+ORDER BY created_at DESC
+`
+
+func (q *Queries) GetPayments(ctx context.Context) ([]Payment, error) {
+	rows, err := q.db.QueryContext(ctx, getPayments)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Payment
+	for rows.Next() {
+		var i Payment
+		if err := rows.Scan(
+			&i.ID,
+			&i.Sender,
+			&i.Recipient,
+			&i.Amount,
+			&i.CreatedAt,
+			&i.UpdatedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}

@@ -24,7 +24,7 @@ export function App() {
   }
 
   function getPayment(id: string) {
-    fetch(`${import.meta.env.VITE_API}/payment/${id}`).then(async (res) => {
+    fetch(`${import.meta.env.VITE_API}/payments/${id}`).then(async (res) => {
       try {
         const payment = await res.json();
         setResponse(JSON.stringify(payment));

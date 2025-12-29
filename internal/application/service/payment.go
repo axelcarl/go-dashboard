@@ -19,13 +19,27 @@ func NewPaymentService(
 }
 
 func (s *PaymentService) FindPaymentByID(q *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error) {
-	storedProduct, err := s.paymentRepository.FindByID(q.ID)
+	storedPayment, err := s.paymentRepository.FindByID(q.ID)
 	if err != nil {
 		return nil, err
 	}
 
 	var queryResult query.GetPaymentByIdQueryResult
-	queryResult.Result = mapper.NewPaymentResultFromEntity(storedProduct)
+	queryResult.Result = mapper.NewPaymentResultFromEntity(storedPayment)
+
+	return &queryResult, nil
+}
+
+func (s *PaymentService) List() (*query.GetPaymentsQueryResult, error) {
+	storedPayments, err := s.paymentRepository.List()
+	if err != nil {
+		return nil, err
+	}
+
+	var queryResult query.GetPaymentsQueryResult
+	for _, payment := range storedPayments {
+		queryResult.Result = append(queryResult.Result, mapper.NewPaymentResultFromEntity(payment))
+	}
 
 	return &queryResult, nil
 }
