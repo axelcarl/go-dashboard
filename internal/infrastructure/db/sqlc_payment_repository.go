@@ -43,6 +43,19 @@ func (repo *SqlcPaymentRepository) List() ([]*entity.Payment, error) {
 	return payments, nil
 }
 
+func (repo *SqlcPaymentRepository) Create(validatedPayment *entity.ValidatedPayment) (*entity.Payment, error) {
+	ctx := context.Background()
+	strAmount := strconv.FormatFloat(validatedPayment.Amount, 'f', 3, 64)
+
+	params := sqlc.CreatePaymentParams{Sender: validatedPayment.Sender, Recipient: validatedPayment.Recipient, Amount: strAmount}
+	payment, err := repo.queries.CreatePayment(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return fromSqlcPaymentRow(&payment), nil
+}
+
 func fromSqlcPaymentRow(row *sqlc.Payment) *entity.Payment {
 	amount, _ := strconv.ParseFloat(row.Amount, 64)
 	payment := &entity.Payment{

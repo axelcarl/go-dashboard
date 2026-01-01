@@ -9,7 +9,3 @@ type GetPaymentByIDQuery struct {
 type GetPaymentByIdQueryResult struct {
 	Result *common.PaymentResult
 }
-
-type GetPaymentsQueryResult struct {
-	Result []*common.PaymentResult
-}

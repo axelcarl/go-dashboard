@@ -9,6 +9,32 @@ import (
 	"context"
 )
 
+const createPayment = `-- name: CreatePayment :one
+INSERT INTO payments (sender, recipient, amount)
+VALUES ($1, $2, $3)
+RETURNING id, sender, recipient, amount, created_at, updated_at
+`
+
+type CreatePaymentParams struct {
+	Sender    string
+	Recipient string
+	Amount    string
+}
+
+func (q *Queries) CreatePayment(ctx context.Context, arg CreatePaymentParams) (Payment, error) {
+	row := q.db.QueryRowContext(ctx, createPayment, arg.Sender, arg.Recipient, arg.Amount)
+	var i Payment
+	err := row.Scan(
+		&i.ID,
+		&i.Sender,
+		&i.Recipient,
+		&i.Amount,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
+
 const getPaymentByID = `-- name: GetPaymentByID :one
 SELECT id, sender, recipient, amount, created_at, updated_at FROM payments
 WHERE id = $1 LIMIT 1

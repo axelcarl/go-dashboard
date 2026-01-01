@@ -2,7 +2,9 @@ package service
 
 import (
 	"go-dashboard/internal/application/mapper"
+	"go-dashboard/internal/application/mutation"
 	"go-dashboard/internal/application/query"
+	"go-dashboard/internal/domain/entity"
 	"go-dashboard/internal/domain/repository"
 )
 
@@ -42,4 +44,22 @@ func (s *PaymentService) List() (*query.GetPaymentsQueryResult, error) {
 	}
 
 	return &queryResult, nil
+}
+
+func (s *PaymentService) Create(m *mutation.CreatePaymentMutation) (*mutation.CreatePaymentMutationResult, error) {
+	payment := entity.NewPayment(m.Sender, m.Recipient, m.Amount)
+	validatedPayment, err := entity.NewValidatedPayment(payment)
+	if err != nil {
+		return nil, err
+	}
+
+	newPayment, err := s.paymentRepository.Create(validatedPayment)
+	if err != nil {
+		return nil, err
+	}
+
+	var mutationResult mutation.CreatePaymentMutationResult
+	mutationResult.Result = mapper.NewPaymentResultFromEntity(newPayment)
+
+	return &mutationResult, err
 }
