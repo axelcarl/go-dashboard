@@ -10,15 +10,12 @@ import (
 	_ "github.com/joho/godotenv/autoload"
 
 	"go-dashboard/internal/database"
-	"go-dashboard/internal/generated/sqlc"
 )
 
 type Server struct {
 	port int
 
 	db database.Service
-
-	query *sqlc.Queries
 }
 
 func NewServer() *http.Server {
@@ -28,8 +25,6 @@ func NewServer() *http.Server {
 		port: port,
 
 		db: db,
-
-		query: sqlc.New(db.DB()),
 	}
 
 	// Declare Server config
