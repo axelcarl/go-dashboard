@@ -10,3 +10,5 @@ type PaymentReponse struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 	CreatedAt time.Time `json:"createdAt"`
 }
+
+type PaymentListReponse []*PaymentReponse

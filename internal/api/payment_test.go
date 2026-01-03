@@ -2,6 +2,7 @@ package api
 
 import (
 	"go-dashboard/internal/application/common"
+	"go-dashboard/internal/application/mutation"
 	"go-dashboard/internal/application/query"
 	"net/http"
 	"net/http/httptest"
@@ -13,11 +14,21 @@ import (
 )
 
 type mockPaymentService struct {
-	findFn func(q *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error)
+	findFn         func(q *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error)
+	findMultipleFn func() (*query.GetPaymentsQueryResult, error)
+	create         func(m *mutation.CreatePaymentMutation) (*mutation.CreatePaymentMutationResult, error)
 }
 
 func (m *mockPaymentService) FindPaymentByID(q *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error) {
 	return m.findFn(q)
+}
+
+func (m *mockPaymentService) List() (*query.GetPaymentsQueryResult, error) {
+	return m.findMultipleFn()
+}
+
+func (m *mockPaymentService) Create(mut *mutation.CreatePaymentMutation) (*mutation.CreatePaymentMutationResult, error) {
+	return m.Create(mut)
 }
 
 func TestGetPaymentByID_Ok(t *testing.T) {

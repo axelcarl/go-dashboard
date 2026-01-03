@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"go-dashboard/internal/api"
 	"go-dashboard/internal/application/service"
+	"go-dashboard/internal/generated/sqlc"
 	"go-dashboard/internal/infrastructure/db"
 	"log"
 	"net/http"
@@ -32,7 +33,7 @@ func (s *Server) RegisterRoutes() http.Handler {
 
 	r.Get("/health/db", s.dbHealthHandler)
 
-	queries := s.query
+	queries := sqlc.New(s.db.DB())
 	paymentRepository := db.NewSqlcPaymentRepository(queries)
 	paymentService := service.NewPaymentService(paymentRepository)
 	api.NewPaymentHandler(r, paymentService)
