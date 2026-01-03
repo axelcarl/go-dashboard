@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { Input } from "./components/ui/input";
+import Dashboard01Block from "./feature/payments/components/dashboard";
 
 export function App() {
   const [id, setId] = useState("0");
@@ -35,19 +36,22 @@ export function App() {
   }
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center flex-col gap-4">
-      <h1 className="text-3xl">Go Dashboard</h1>
-      <div className="flex items-center justify-center flex-col gap-4 w-80">
-        <Input
-          placeholder="Optional: Enter a payment ID (Eg. 1, 2)"
-          value={id}
-          onChange={(e) => setId(e.currentTarget.value)}
-          type="number"
-        />
-        <Button onClick={pingBackend}>Ping Backend</Button>
-        <Card className="p-4">{response}</Card>
+    <>
+      <Dashboard01Block />
+      <div className="h-screen w-screen flex items-center justify-center flex-col gap-4">
+        <h1 className="text-3xl">Go Dashboard</h1>
+        <div className="flex items-center justify-center flex-col gap-4 w-80">
+          <Input
+            placeholder="Optional: Enter a payment ID (Eg. 1, 2)"
+            value={id}
+            onChange={(e) => setId(e.currentTarget.value)}
+            type="number"
+          />
+          <Button onClick={pingBackend}>Ping Backend</Button>
+          <Card className="p-4">{response}</Card>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
