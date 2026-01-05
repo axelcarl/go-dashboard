@@ -207,6 +207,7 @@ export default function PaymentDataTable({
   data: z.infer<typeof schema>[];
 }) {
   const [data, setData] = useState(() => initialData);
+  const [tab, setTab] = useState<string>("payments");
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -266,14 +267,15 @@ export default function PaymentDataTable({
 
   return (
     <Tabs
-      defaultValue="payments"
+      value={tab}
+      onValueChange={setTab}
       className="w-full flex-col justify-start gap-6"
     >
       <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
         </Label>
-        <Select defaultValue="payments">
+        <Select value={tab} onValueChange={(val) => (val ? setTab(val) : null)}>
           <SelectTrigger
             className="flex w-fit @4xl/main:hidden"
             size="sm"

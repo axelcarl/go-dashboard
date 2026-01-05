@@ -66,26 +66,8 @@ import {
   TrendingUpIcon,
   UserCircleIcon,
 } from "lucide-react";
-import PaymentDataTable from "./table";
-
-const data = [
-  {
-    id: 1,
-    sender: "Axel",
-    recipient: "Tilde",
-    amount: 100.5,
-    createdAt: new Date("2025-12-30"),
-    updatedAt: new Date("2025-12-30"),
-  },
-  {
-    id: 2,
-    sender: "Bob",
-    recipient: "Sara",
-    amount: 2225.0,
-    createdAt: new Date("2026-01-01"),
-    updatedAt: new Date("2026-01-01"),
-  },
-];
+import { paths } from "@/config/paths";
+import { Link } from "../ui/link";
 
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
@@ -116,7 +98,11 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export default function PaymentDashboard() {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <SidebarProvider
       style={
@@ -136,7 +122,7 @@ export default function PaymentDashboard() {
               <div className="px-4 lg:px-6">
                 <ChartAreaInteractive />
               </div>
-              <PaymentDataTable data={data} />
+              {children}
             </div>
           </div>
         </div>
@@ -148,8 +134,12 @@ export default function PaymentDashboard() {
 function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const navMain = [
     {
+      title: "Landing Page",
+      url: paths.home.getHref(),
+    },
+    {
       title: "Payments Dashboard",
-      url: "",
+      url: paths.app.dashboard.getHref(),
     },
   ];
 
@@ -171,13 +161,12 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              render={<a href="#" />}
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
-            >
-              <LayersIcon className="size-5!" />
-              <span className="text-base font-semibold">Go Dashboard</span>
-            </SidebarMenuButton>
+            <Link to={paths.app.dashboard.getHref()} replace>
+              <SidebarMenuButton className="data-[slot=sidebar-menu-button]:p-1.5!">
+                <LayersIcon className="size-5!" />
+                <span className="text-base font-semibold">Go Dashboard</span>
+              </SidebarMenuButton>
+            </Link>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -225,13 +214,12 @@ function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                tooltip={item.title}
-                render={<a href={item.url} />}
-              >
-                <PanelLeftIcon />
-                <span>{item.title}</span>
-              </SidebarMenuButton>
+              <Link to={item.url} replace>
+                <SidebarMenuButton tooltip={item.title}>
+                  <PanelLeftIcon />
+                  <span>{item.title}</span>
+                </SidebarMenuButton>
+              </Link>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
