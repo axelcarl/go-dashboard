@@ -80,7 +80,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Payment as schema } from "@/types/api";
+import { PaymentSchema as schema } from "@/types/api";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,

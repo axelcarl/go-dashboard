@@ -1,24 +1,26 @@
+import { Spinner } from "@/components/ui/spinner";
+import { useGetPayments } from "@/features/payments/api/get-payments";
 import PaymentDataTable from "@/features/payments/components/table";
 
-const data = [
-  {
-    id: 1,
-    sender: "Axel",
-    recipient: "Tilde",
-    amount: 100.5,
-    createdAt: new Date("2025-12-30"),
-    updatedAt: new Date("2025-12-30"),
-  },
-  {
-    id: 2,
-    sender: "Bob",
-    recipient: "Sara",
-    amount: 2225.0,
-    createdAt: new Date("2026-01-01"),
-    updatedAt: new Date("2026-01-01"),
-  },
-];
-
 export default function Dashboard() {
-  return <PaymentDataTable data={data} />;
+  const payments = useGetPayments();
+  if (payments.isLoading) {
+    return (
+      <div className="pt-8 w-full items-center justify-center flex">
+        <Spinner className="size-10" />
+      </div>
+    );
+  }
+
+  if (payments.isError) {
+    return (
+      <div className="pt-8 w-full items-center justify-center flex">
+        Something went wrong...
+      </div>
+    );
+  }
+
+  if (payments.data) {
+    return <PaymentDataTable data={payments.data} />;
+  }
 }
