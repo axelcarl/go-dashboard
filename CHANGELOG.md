@@ -1,3 +1,13 @@
+## [1.3.0](https://github.com/axelcarl/go-dashboard/compare/v1.2.0...v1.3.0) (2026-01-07)
+
+### Features
+
+* add list payments endpoint ([7c4c437](https://github.com/axelcarl/go-dashboard/commit/7c4c4372c35dba8093dedbfcf1d7a640cfea9d0e))
+* dashboard ui ([04c6d44](https://github.com/axelcarl/go-dashboard/commit/04c6d44e3d7682510bf465ed608760242455105e))
+* payment creation ([7d2e2e2](https://github.com/axelcarl/go-dashboard/commit/7d2e2e298516af9b7551f968deedb0cf05d20aae))
+* payment query ([cd5ed0c](https://github.com/axelcarl/go-dashboard/commit/cd5ed0c4b3de17dbe281b3149a456ba07911f206))
+* routing ([2a32d77](https://github.com/axelcarl/go-dashboard/commit/2a32d776c2a8b6b6f3fd17fd427ac397de456bfb))
+
 ## [1.2.0](https://github.com/axelcarl/go-dashboard/compare/v1.1.0...v1.2.0) (2025-12-28)
 
 ### Features
