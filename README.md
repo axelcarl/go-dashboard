@@ -1,6 +1,8 @@
-# Go Dashboard
+# Go Payment Dashboard
 
-Dashboard written in Go.
+Example Dashboard written in Go with best practices in mind. Still under construction!
+
+Visit the dashboard here: [Go Payment Dashboard](https://go-dashboard.fly.dev)
 
 ## Getting Started
 
