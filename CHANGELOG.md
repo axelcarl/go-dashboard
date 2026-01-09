@@ -1,3 +1,9 @@
+## [1.4.0](https://github.com/axelcarl/go-dashboard/compare/v1.3.0...v1.4.0) (2026-01-09)
+
+### Features
+
+* landing page alignment ([ffc7170](https://github.com/axelcarl/go-dashboard/commit/ffc71707fee609fb12717f1c51f3b9db499eb246))
+
 ## [1.3.0](https://github.com/axelcarl/go-dashboard/compare/v1.2.0...v1.3.0) (2026-01-07)
 
 ### Features
