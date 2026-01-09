@@ -1,3 +1,9 @@
+## [1.5.0](https://github.com/axelcarl/go-dashboard/compare/v1.4.0...v1.5.0) (2026-01-09)
+
+### Features
+
+* use pat for semantic ([b773ca4](https://github.com/axelcarl/go-dashboard/commit/b773ca4f2c0f5e5b1f00bb15c920b4720dcb457b))
+
 ## [1.4.0](https://github.com/axelcarl/go-dashboard/compare/v1.3.0...v1.4.0) (2026-01-09)
 
 ### Features
