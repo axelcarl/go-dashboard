@@ -23,7 +23,7 @@ const LandingRoute = () => {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             <span className="block">Payment Dashboard</span>
           </h2>
-          <p>
+          <p className="px-3 text-center">
             Showcasing best practices for building an application with{" "}
             <span className="text-primary">Go</span> &{" "}
             <span className="text-primary">React</span>
