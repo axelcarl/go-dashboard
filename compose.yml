@@ -1,0 +1,68 @@
+services:
+  app:
+    image: cosmtrek/air
+    working_dir: /dashboard
+    restart: unless-stopped
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      APP_ENV: ${APP_ENV}
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_SSLMODE: ${DB_SSLMODE}
+    volumes:
+      - ./cmd:/dashboard/cmd
+      - ./internal:/dashboard/internal
+      - ./go.mod:/dashboard/go.mod
+      - ./go.sum:/dashboard/go.sum
+      - ./.air.toml:/dashboard/.air.toml
+      - ./.env:/dashboard/.env
+      - ./main:/dashboard/main
+    depends_on:
+      psql_bp:
+        condition: service_healthy
+    networks:
+      - go_dashboard
+  frontend:
+    image: node:25-alpine
+    restart: unless-stopped
+    working_dir: /frontend
+    volumes:
+      - ./frontend/:/frontend/
+      - /frontend/node_modules
+    depends_on:
+      - app
+    ports:
+      - 5173:5173
+    networks:
+      - go_dashboard
+    command: sh -c "npm install && npm run dev"
+  psql_bp:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - psql_volume_bp:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}'"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+    networks:
+      - go_dashboard
+volumes:
+  psql_volume_bp:
+networks:
+  go_dashboard:
