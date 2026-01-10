@@ -1,9 +1,7 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: prod
+    image: cosmtrek/air
+    working_dir: /dashboard
     restart: unless-stopped
     ports:
       - ${PORT}:${PORT}
@@ -17,6 +15,14 @@ services:
       DB_PASSWORD: ${DB_PASSWORD}
       DB_SCHEMA: ${DB_SCHEMA}
       DB_SSLMODE: ${DB_SSLMODE}
+    volumes:
+      - ./cmd:/dashboard/cmd
+      - ./internal:/dashboard/internal
+      - ./go.mod:/dashboard/go.mod
+      - ./go.sum:/dashboard/go.sum
+      - ./.air.toml:/dashboard/.air.toml
+      - ./.env:/dashboard/.env
+      - ./main:/dashboard/main
     depends_on:
       psql_bp:
         condition: service_healthy
