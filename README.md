@@ -1,65 +1,29 @@
 # Go Payment Dashboard
 
+![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+
 Example Dashboard written in Go with best practices in mind. Still under construction!
 
 Visit the dashboard here: [Go Payment Dashboard](https://go-dashboard.fly.dev)
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+1. Make sure you have `docker` installed.
 
-## MakeFile
+2. Create a `.env` in the `root` and `frontend` directories. These should mimic the `.env.example` and `.env.production` respectively.
 
-Run build make command with tests
+3. Run the project with live reloading using:
+   ```bash
+   docker compose up
+   ```
 
-```bash
-make all
-```
+- Run the tests using
 
-Build the application
+  ```bash
+  go test ./... -v
+  ```
 
-```bash
-make build
-```
-
-Run the application
-
-```bash
-make run
-```
-
-Create DB container
-
-```bash
-make docker-run
-```
-
-Shutdown DB Container
-
-```bash
-make docker-down
-```
-
-DB Integrations Test:
-
-```bash
-make itest
-```
-
-Live reload the application:
-
-```bash
-make watch
-```
-
-Run the test suite:
-
-```bash
-make test
-```
-
-Clean up binary from the last build:
-
-```bash
-make clean
-```
+- Run the integration tests using
+  ```bash
+  go test ./internal/database -v
+  ```
