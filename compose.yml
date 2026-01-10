@@ -15,11 +15,13 @@ services:
       DB_DATABASE: ${DB_DATABASE}
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
+      DB_SCHEMA: ${DB_SCHEMA}
+      DB_SSLMODE: ${DB_SSLMODE}
     depends_on:
-      mysql_bp:
+      psql_bp:
         condition: service_healthy
     networks:
-      - blueprint
+      - go_dashboard
   frontend:
     build:
       context: .
@@ -31,39 +33,28 @@ services:
     ports:
       - 5173:5173
     networks:
-      - blueprint
-  mysql_bp:
-    image: mysql:latest
+      - go_dashboard
+  psql_bp:
+    image: postgres:17
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:3306"
+      - "${DB_PORT}:5432"
     volumes:
-      - mysql_volume_bp:/var/lib/mysql
+      - psql_volume_bp:/var/lib/postgresql/data
     healthcheck:
       test:
-        [
-          "CMD",
-          "mysqladmin",
-          "ping",
-          "-h",
-          "${DB_HOST}",
-          "-u",
-          "${DB_USERNAME}",
-          "--password=${DB_PASSWORD}",
-        ]
+        ["CMD-SHELL", "sh -c 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}'"]
       interval: 5s
       timeout: 5s
       retries: 3
       start_period: 15s
     networks:
-      - blueprint
-
+      - go_dashboard
 volumes:
-  mysql_volume_bp:
+  psql_volume_bp:
 networks:
-  blueprint:
+  go_dashboard:
