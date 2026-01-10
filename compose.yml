@@ -29,17 +29,19 @@ services:
     networks:
       - go_dashboard
   frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: frontend
+    image: node:25-alpine
     restart: unless-stopped
+    working_dir: /frontend
+    volumes:
+      - ./frontend/:/frontend/
+      - /frontend/node_modules
     depends_on:
       - app
     ports:
       - 5173:5173
     networks:
       - go_dashboard
+    command: sh -c "npm install && npm run dev"
   psql_bp:
     image: postgres:17
     restart: unless-stopped
