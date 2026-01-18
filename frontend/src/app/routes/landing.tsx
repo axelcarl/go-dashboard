@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { paths } from "@/config/paths";
 import { Badge } from "@/components/ui/badge";
 import { Terminal } from "lucide-react";
+import paymentLogo from "@/assets/paymend-dashboard-logo.png";
 
 const LandingRoute = () => {
   const navigate = useNavigate();
@@ -13,8 +14,11 @@ const LandingRoute = () => {
   };
 
   return (
-    <>
-      <div className="flex h-screen items-center bg-white justify-center">
+    <div className="flex flex-col h-screen">
+      <div className="p-5 font-sans flex gap-2">
+        <img src={paymentLogo} alt="" className="w-25" />
+      </div>
+      <div className="flex h-[80dvh] items-center bg-white justify-center">
         <div className="flex flex-col gap-4 items-center justify-center">
           <Badge className="bg-primary/10 border-primary border text-primary">
             <Terminal />
@@ -23,8 +27,8 @@ const LandingRoute = () => {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             <span className="block">Payment Dashboard</span>
           </h2>
-          <p className="px-3 text-center">
-            Showcasing best practices for building an application with{" "}
+          <p className="max-w-100 text-center px-2">
+            Modern payment dashboard application built using{" "}
             <span className="text-primary">Go</span> &{" "}
             <span className="text-primary">React</span>
           </p>
@@ -73,7 +77,7 @@ const LandingRoute = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
