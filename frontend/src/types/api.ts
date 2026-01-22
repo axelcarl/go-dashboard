@@ -1,6 +1,15 @@
 import * as z from "zod";
 
-export const PaymentSchema = z
+export const PaymentSchema = z.object({
+  id: z.number(),
+  sender: z.string(),
+  recipient: z.string(),
+  amount: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export const PaymentApiSchema = z
   .object({
     id: z.number(),
     sender: z.string(),
@@ -19,3 +28,5 @@ export type Payment = z.infer<typeof PaymentSchema>;
 
 export const PaymentsSchema = z.array(PaymentSchema);
 export type Payments = z.infer<typeof PaymentsSchema>;
+
+export const PaymentsApiSchema = z.array(PaymentApiSchema);

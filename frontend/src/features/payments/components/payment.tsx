@@ -20,6 +20,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { useForm } from "@tanstack/react-form";
+import { useCreatePayment } from "../api/create-payment";
 
 export default function PaymentDrawer({
   item,
@@ -28,20 +29,21 @@ export default function PaymentDrawer({
   item: Payment;
   children: React.ReactNode;
 }) {
+  const paymentMutation = useCreatePayment();
   const form = useForm({
     defaultValues: {
       id: 0,
       sender: "",
       recipient: "",
       amount: 0,
-      createdAt: "",
-      updatedAt: "",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     },
     validators: {
       onSubmit: PaymentSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
+      paymentMutation.mutateAsync(value);
     },
   });
 
@@ -107,6 +109,35 @@ export default function PaymentDrawer({
                         onChange={(e) => field.handleChange(e.target.value)}
                         aria-invalid={isInvalid}
                         placeholder="Tom"
+                        autoComplete="off"
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
+              />
+
+              <form.Field
+                name="amount"
+                children={(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Amount</FieldLabel>
+                      <Input
+                        id={field.name}
+                        name={field.name}
+                        value={field.state.value}
+                        onBlur={field.handleBlur}
+                        onChange={(e) =>
+                          field.handleChange(parseFloat(e.target.value))
+                        }
+                        aria-invalid={isInvalid}
+                        placeholder="$0.0"
+                        type="number"
                         autoComplete="off"
                       />
                       {isInvalid && (
