@@ -20,7 +20,7 @@ export default function Dashboard() {
     );
   }
 
-  if (payments.data) {
+  if (payments.isSuccess) {
     return <PaymentDataTable data={payments.data} />;
   }
 }

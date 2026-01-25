@@ -1,6 +1,6 @@
 import { api } from "@/lib/api-client";
 import { type Payment } from "@/types/api";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 async function createPayment(payment: Payment): Promise<void> {
   await api.post("/payments", {
@@ -11,7 +11,11 @@ async function createPayment(payment: Payment): Promise<void> {
 }
 
 export function useCreatePayment() {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: createPayment,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
+    },
   });
 }
