@@ -17,11 +17,11 @@ const LandingRoute = () => {
   return (
     <div className="flex flex-col h-screen gap-20">
       <div className="p-5 font-sans flex gap-2">
-        <img src={paymentLogo} alt="" className="w-25" />
+        <img src={paymentLogo} alt="" className="w-25 mix-blend-multiply" />
       </div>
-      <div className="gap-2 mx-8 flex bg-white justify-center">
+      <div className="gap-2 mx-8 flex bg-background justify-center">
         <div className="flex flex-col gap-4">
-          <Badge className="bg-primary/10 border-primary border text-primary">
+          <Badge className="bg-primary/10 dark:bg-primary/30 border-primary border text-primary">
             <Terminal />
             Built with Go
           </Badge>
@@ -83,7 +83,7 @@ const LandingRoute = () => {
           className="rounded-lg shadow-xl h-110 hidden sm:block"
         />
       </div>
-      <div className="flex items-center justify-center p-4 mx-4 gap-8 flex-wrap bg-neutral-100 rounded-xl">
+      <div className="flex items-center justify-center p-4 mx-4 gap-8 flex-wrap bg-neutral-100 rounded-xl dark:bg-neutral-900">
         <img
           src={desktop}
           alt="Desktop screenshot"

@@ -21,15 +21,6 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -53,22 +44,18 @@ import {
 } from "@/components/ui/sidebar";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import {
-  BellIcon,
-  CreditCardIcon,
   LayersIcon,
-  LogOutIcon,
   MailIcon,
-  MoreVerticalIcon,
   PanelLeftIcon,
   PlusCircleIcon,
   SettingsIcon,
   TrendingDownIcon,
   TrendingUpIcon,
-  UserCircleIcon,
 } from "lucide-react";
 import { paths } from "@/config/paths";
 import { Link } from "../ui/link";
 import PaymentDrawer from "@/features/payments/components/payment";
+import { ModeToggle } from "../mode-toggle";
 
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
@@ -144,12 +131,7 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     },
   ];
 
-  const navSecondary = [
-    {
-      title: "Settings",
-      url: "",
-    },
-  ];
+  const navSecondary = [] as { title: string; url: string }[];
 
   const user = {
     name: "Admin",
@@ -277,70 +259,19 @@ function NavUser({
 }) {
   return (
     <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <SidebarMenuButton
-                size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-              />
-            }
-          >
-            <Avatar className="h-8 w-8 rounded-lg grayscale">
-              <AvatarImage src={user.avatar} alt={user.name} />
-              <AvatarFallback className="rounded-lg">A</AvatarFallback>
-            </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{user.name}</span>
-              <span className="text-muted-foreground truncate text-xs">
-                {user.email}
-              </span>
-            </div>
-            <MoreVerticalIcon className="ml-auto size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side="right"
-            align="end"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="p-0 font-normal">
-              <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">A</AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="text-muted-foreground truncate text-xs">
-                    {user.email}
-                  </span>
-                </div>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <UserCircleIcon />
-                Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellIcon />
-                Notifications
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOutIcon />
-              Log out
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <SidebarMenuItem className="flex gap-4">
+        <Avatar className="h-8 w-8 rounded-lg grayscale">
+          <AvatarImage src={user.avatar} alt={user.name} />
+          <AvatarFallback className="rounded-lg">A</AvatarFallback>
+        </Avatar>
+        <div className="grid flex-1 text-left text-sm leading-tight">
+          <span className="truncate font-medium">{user.name}</span>
+          <span className="text-muted-foreground truncate text-xs">
+            {user.email}
+          </span>
+        </div>
+
+        <ModeToggle />
       </SidebarMenuItem>
     </SidebarMenu>
   );

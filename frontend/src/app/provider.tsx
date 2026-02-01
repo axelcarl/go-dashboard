@@ -6,6 +6,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import { MainErrorFallback } from "@/components/errors/main";
 import { Spinner } from "@/components/ui/spinner";
 import { queryConfig } from "@/lib/react-query";
+import { ThemeProvider } from "@/components/theme-provider";
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -20,19 +21,21 @@ export const AppProvider = ({ children }: AppProviderProps) => {
   );
 
   return (
-    <React.Suspense
-      fallback={
-        <div className="flex h-screen w-screen items-center justify-center">
-          <Spinner className="size-10" />
-        </div>
-      }
-    >
-      <ErrorBoundary FallbackComponent={MainErrorFallback}>
-        <QueryClientProvider client={queryClient}>
-          {import.meta.env.DEV && <ReactQueryDevtools />}
-          {children}
-        </QueryClientProvider>
-      </ErrorBoundary>
-    </React.Suspense>
+    <ThemeProvider defaultTheme="system" storageKey="ui-theme">
+      <React.Suspense
+        fallback={
+          <div className="flex h-screen w-screen items-center justify-center">
+            <Spinner className="size-10" />
+          </div>
+        }
+      >
+        <ErrorBoundary FallbackComponent={MainErrorFallback}>
+          <QueryClientProvider client={queryClient}>
+            {import.meta.env.DEV && <ReactQueryDevtools />}
+            {children}
+          </QueryClientProvider>
+        </ErrorBoundary>
+      </React.Suspense>
+    </ThemeProvider>
   );
 };
