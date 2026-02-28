@@ -25,12 +25,6 @@ import { CartesianGrid, XAxis, Area, AreaChart } from "recharts";
 import { useGetPayments } from "../api/get-payments";
 import type { Payment } from "@/types/api";
 
-const chartData = [
-  { date: "2026-01-17", volume: 100 },
-  { date: "2026-02-07", volume: 100 },
-  { date: "2026-02-08", volume: 200 },
-];
-
 const chartConfig = {
   volume: {
     label: "Payment Volume: ",
@@ -54,7 +48,7 @@ const getPaymentChartData = (payments: Payment[]) => {
 };
 
 function PaymentChart() {
-  const { data, isLoading, isError } = useGetPayments();
+  const { data, isLoading } = useGetPayments();
   const [timeRange, setTimeRange] = useState("90d");
 
   const filteredData = getPaymentChartData(data || []).filter((item) => {
