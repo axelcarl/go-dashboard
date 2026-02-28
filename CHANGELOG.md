@@ -1,3 +1,15 @@
+## [1.6.0](https://github.com/axelcarl/go-dashboard/compare/v1.5.1...v1.6.0) (2026-02-28)
+
+### Features
+
+* dark mode ([4e186ec](https://github.com/axelcarl/go-dashboard/commit/4e186ec6560175c89900ecb08fc5abeb31583abd))
+* graph improvements ([2ebe1b8](https://github.com/axelcarl/go-dashboard/commit/2ebe1b87c770152d53ec0300f3c715fe82c20785))
+* landing improvements ([244bf4b](https://github.com/axelcarl/go-dashboard/commit/244bf4b54d002349405cea1b1b1e30ae2d71d6f4))
+* landing screens ([2a11061](https://github.com/axelcarl/go-dashboard/commit/2a11061ae7dee5a25593c857ccaa7de53a41293b))
+* payment creation ([52cabe5](https://github.com/axelcarl/go-dashboard/commit/52cabe571fe6b46548739b063049df0f000b7a38))
+* payment drawer form ([200fda3](https://github.com/axelcarl/go-dashboard/commit/200fda3ee42808d7767b7df599bdc0c667699ef0))
+* set payments on creation ([a845e8d](https://github.com/axelcarl/go-dashboard/commit/a845e8d423acfdeeec748ec94707f4f89d84f580))
+
 ## [1.5.1](https://github.com/axelcarl/go-dashboard/compare/v1.5.0...v1.5.1) (2026-01-10)
 
 ### Bug Fixes
