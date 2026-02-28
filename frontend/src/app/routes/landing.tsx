@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import { paths } from "@/config/paths";
 import { Badge } from "@/components/ui/badge";
 import { Terminal } from "lucide-react";
-
+import paymentLogo from "@/assets/paymend-dashboard-logo.png";
+import mobile from "@/assets/mobile-screen.png";
+import desktop from "@/assets/desktop-screen.png";
 const LandingRoute = () => {
   const navigate = useNavigate();
 
@@ -13,23 +15,26 @@ const LandingRoute = () => {
   };
 
   return (
-    <>
-      <div className="flex h-screen items-center bg-white justify-center">
-        <div className="flex flex-col gap-4 items-center justify-center">
-          <Badge className="bg-primary/10 border-primary border text-primary">
+    <div className="flex flex-col h-screen gap-20">
+      <div className="p-5 font-sans flex gap-2">
+        <img src={paymentLogo} alt="" className="w-25 mix-blend-multiply" />
+      </div>
+      <div className="gap-2 mx-8 flex bg-background justify-center">
+        <div className="flex flex-col gap-4">
+          <Badge className="bg-primary/10 dark:bg-primary/30 border-primary border text-primary">
             <Terminal />
             Built with Go
           </Badge>
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="text-4xl max-w-[80%] font-bold tracking-tight sm:text-6xl">
             <span className="block">Payment Dashboard</span>
           </h2>
-          <p className="px-3 text-center">
-            Showcasing best practices for building an application with{" "}
+          <p className="max-w-80">
+            Modern payment dashboard application built using{" "}
             <span className="text-primary">Go</span> &{" "}
             <span className="text-primary">React</span>
           </p>
-          <div className="mt-8 flex justify-center">
-            <div className="inline-flex rounded-md shadow">
+          <div className="mt-8 flex max-w-[50%]">
+            <div className="flex rounded-md shadow">
               <Button onClick={handleStart}>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,8 +77,27 @@ const LandingRoute = () => {
             </div>
           </div>
         </div>
+        <img
+          src={mobile}
+          alt="Mobile screenshot"
+          className="rounded-lg shadow-xl h-110 hidden sm:block"
+        />
       </div>
-    </>
+      <div className="flex items-center justify-center p-4 mx-4 gap-8 flex-wrap bg-neutral-100 rounded-xl dark:bg-neutral-900">
+        <img
+          src={desktop}
+          alt="Desktop screenshot"
+          className="w-80 h-60 rounded-2xl shadow-xl"
+        />
+        <div className="flex flex-col">
+          <h2 className="font-bold">Create, Visualize, Explore</h2>
+          <p className="max-w-80 text-neutral-600 text-sm">
+            Using the Go Payment Dashboard you can create, visualize and explore
+            payments with an all-in-one toolset.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

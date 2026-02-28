@@ -1,11 +1,11 @@
 import { api } from "@/lib/api-client";
-import { PaymentsSchema, type Payments } from "@/types/api";
+import { PaymentsApiSchema, type Payments } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
 
 async function getPayments(): Promise<Payments> {
   const response = await api.get("/payments");
   try {
-    const payments = PaymentsSchema.parse(response);
+    const payments = PaymentsApiSchema.parse(response);
     return payments;
   } catch (error) {
     console.error(error);

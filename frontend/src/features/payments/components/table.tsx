@@ -50,7 +50,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -206,6 +206,8 @@ export default function PaymentDataTable({
 }: {
   data: z.infer<typeof schema>[];
 }) {
+  "use no memo"; // Limitation of react compiler w. tanstack table.
+
   const [data, setData] = useState(() => initialData);
   const [tab, setTab] = useState<string>("payments");
   const [rowSelection, setRowSelection] = useState({});
@@ -227,6 +229,11 @@ export default function PaymentDataTable({
     () => data?.map(({ id }) => id) || [],
     [data],
   );
+
+  // Add this to sync when initialData changes
+  useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
 
   // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
@@ -545,9 +552,9 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Area
                 dataKey="desktop"
                 type="natural"
-                fill="var(--color-desktop)"
+                fill="var(--color-volume)"
                 fillOpacity={0.4}
-                stroke="var(--color-desktop)"
+                stroke="var(--color-volume)"
                 stackId="a"
               />
             </AreaChart>
