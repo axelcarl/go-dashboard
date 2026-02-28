@@ -552,9 +552,9 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Area
                 dataKey="desktop"
                 type="natural"
-                fill="var(--color-desktop)"
+                fill="var(--color-volume)"
                 fillOpacity={0.4}
-                stroke="var(--color-desktop)"
+                stroke="var(--color-volume)"
                 stackId="a"
               />
             </AreaChart>
