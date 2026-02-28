@@ -22,7 +22,6 @@ services:
       - ./go.sum:/dashboard/go.sum
       - ./.air.toml:/dashboard/.air.toml
       - ./.env:/dashboard/.env
-      - ./main:/dashboard/main
     networks:
       - go_dashboard
   frontend:
