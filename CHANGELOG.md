@@ -1,3 +1,9 @@
+## [1.6.1](https://github.com/axelcarl/go-dashboard/compare/v1.6.0...v1.6.1) (2026-02-28)
+
+### Bug Fixes
+
+* removed unused vars ([a5f8bf4](https://github.com/axelcarl/go-dashboard/commit/a5f8bf4b2068bda6b4af2ea3ef856450615a2a5f))
+
 ## [1.6.0](https://github.com/axelcarl/go-dashboard/compare/v1.5.1...v1.6.0) (2026-02-28)
 
 ### Features
