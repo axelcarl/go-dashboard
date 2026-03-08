@@ -141,14 +141,6 @@ function NavMain({
                 <span>Send Payment</span>
               </SidebarMenuButton>
             </PaymentDrawer>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <MailIcon />
-              <span className="sr-only">Inbox</span>
-            </Button>
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
