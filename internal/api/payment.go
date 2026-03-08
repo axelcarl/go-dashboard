@@ -24,6 +24,7 @@ func NewPaymentHandler(r *chi.Mux, service *service.PaymentService) *PaymentHand
 	r.Route("/payments", func(r chi.Router) {
 		r.Get("/", handler.GetPayments)
 		r.Post("/", handler.CreatePayment)
+		r.Put("/{id}", handler.UpdatePayment)
 		r.Get("/{id}", handler.GetPaymentByID)
 	})
 
@@ -98,6 +99,46 @@ func (ph *PaymentHandler) CreatePayment(w http.ResponseWriter, r *http.Request) 
 	payment, err := ph.service.Create(mut)
 	if err != nil {
 		WriteErrorResponse(w, r, http.StatusInternalServerError, "Failed to create payment")
+		return
+	}
+
+	response := mapper.ToPaymentResponse(payment.Result)
+	render.JSON(w, r, response)
+}
+
+func (ph *PaymentHandler) UpdatePayment(w http.ResponseWriter, r *http.Request) {
+	ID, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		WriteErrorResponse(w, r, http.StatusBadRequest, "Invalid payment ID")
+		return
+	}
+
+	var body request.PaymentRequest
+	err = render.DecodeJSON(r.Body, &body)
+	if err != nil {
+		WriteErrorResponse(w, r, http.StatusBadRequest, "Request body doesn't follow schema")
+		return
+	}
+
+	mut, err := body.ToUpdatePaymentMutation(ID)
+	if err != nil {
+		switch err {
+		case request.ErrSenderEmpty:
+			WriteErrorResponse(w, r, http.StatusBadRequest, "sender can't be empty")
+
+		case request.ErrRecipientEmpty:
+			WriteErrorResponse(w, r, http.StatusBadRequest, "recipient can't be empty")
+
+		case request.ErrInvalidAmount:
+			WriteErrorResponse(w, r, http.StatusBadRequest, "amount must be greater than 0")
+		}
+
+		return
+	}
+
+	payment, err := ph.service.Update(mut)
+	if err != nil {
+		WriteErrorResponse(w, r, http.StatusInternalServerError, "Failed to update payment")
 		return
 	}
 

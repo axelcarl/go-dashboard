@@ -9,4 +9,5 @@ type PaymentService interface {
 	FindPaymentByID(query *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error)
 	List() (*query.GetPaymentsQueryResult, error)
 	Create(mutation *mutation.CreatePaymentMutation) (*mutation.CreatePaymentMutationResult, error)
+	Update(mutation *mutation.UpdatePaymentMutation) (*mutation.UpdatePaymentMutationResult, error)
 }

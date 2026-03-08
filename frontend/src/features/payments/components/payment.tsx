@@ -21,29 +21,38 @@ import {
 } from "@/components/ui/field";
 import { useForm } from "@tanstack/react-form";
 import { useCreatePayment } from "../api/create-payment";
+import { useUpdatePayment } from "../api/update-payment";
 
 export default function PaymentDrawer({
-  item,
+  item = undefined,
   children,
 }: {
-  item: Payment;
+  item?: Payment;
   children: React.ReactNode;
 }) {
-  const paymentMutation = useCreatePayment();
+  const createPaymentMutation = useCreatePayment();
+  const updatePaymentMutation = useUpdatePayment();
   const form = useForm({
-    defaultValues: {
-      id: 0,
-      sender: "",
-      recipient: "",
-      amount: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
+    defaultValues: item
+      ? item
+      : {
+          id: 0,
+          sender: "",
+          recipient: "",
+          amount: 0,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
     validators: {
       onSubmit: PaymentSchema,
     },
     onSubmit: async ({ value }) => {
-      paymentMutation.mutateAsync(value);
+      if (item?.id) {
+        updatePaymentMutation.mutateAsync(value);
+        return;
+      }
+
+      createPaymentMutation.mutateAsync(value);
     },
   });
 
@@ -52,7 +61,11 @@ export default function PaymentDrawer({
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="gap-1">
-          <DrawerTitle>Payment #{item.id}</DrawerTitle>
+          {item?.id ? (
+            <DrawerTitle>Payment #{item.id}</DrawerTitle>
+          ) : (
+            <DrawerTitle>New Payment</DrawerTitle>
+          )}
           <DrawerDescription>Create / Update payment</DrawerDescription>
         </DrawerHeader>
 

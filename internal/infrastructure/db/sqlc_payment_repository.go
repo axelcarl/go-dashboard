@@ -69,3 +69,21 @@ func fromSqlcPaymentRow(row *sqlc.Payment) *entity.Payment {
 
 	return payment
 }
+
+func (repo *SqlcPaymentRepository) Update(validatedPayment *entity.ValidatedPayment) (*entity.Payment, error) {
+	ctx := context.Background()
+	strAmount := strconv.FormatFloat(validatedPayment.Amount, 'f', 3, 64)
+
+	params := sqlc.UpdatePaymentParams{
+		ID:        validatedPayment.ID,
+		Sender:    validatedPayment.Sender,
+		Recipient: validatedPayment.Recipient,
+		Amount:    strAmount,
+	}
+	payment, err := repo.queries.UpdatePayment(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+
+	return fromSqlcPaymentRow(&payment), nil
+}

@@ -88,3 +88,36 @@ func (q *Queries) GetPayments(ctx context.Context) ([]Payment, error) {
 	}
 	return items, nil
 }
+
+const updatePayment = `-- name: UpdatePayment :one
+UPDATE payments
+SET sender = $2, recipient = $3, amount = $4
+WHERE id = $1
+RETURNING id, sender, recipient, amount, created_at, updated_at
+`
+
+type UpdatePaymentParams struct {
+	ID        int32
+	Sender    string
+	Recipient string
+	Amount    string
+}
+
+func (q *Queries) UpdatePayment(ctx context.Context, arg UpdatePaymentParams) (Payment, error) {
+	row := q.db.QueryRowContext(ctx, updatePayment,
+		arg.ID,
+		arg.Sender,
+		arg.Recipient,
+		arg.Amount,
+	)
+	var i Payment
+	err := row.Scan(
+		&i.ID,
+		&i.Sender,
+		&i.Recipient,
+		&i.Amount,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+	)
+	return i, err
+}
