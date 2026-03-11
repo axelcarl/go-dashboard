@@ -58,11 +58,9 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { PaymentSchema as schema } from "@/types/api";
+import { type Payment, type Payments } from "@/types/api";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -71,13 +69,10 @@ import {
   ChevronsRightIcon,
   Edit,
   GripVerticalIcon,
-  MoreVerticalIcon,
-  PlusIcon,
 } from "lucide-react";
-import { z } from "zod";
 import PaymentDrawer from "./payment";
 
-const columns: ColumnDef<z.infer<typeof schema>>[] = [
+const columns: ColumnDef<Payment>[] = [
   {
     id: "drag",
     header: () => null,
@@ -193,7 +188,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
 export default function PaymentDataTable({
   data: initialData,
 }: {
-  data: z.infer<typeof schema>[];
+  data: Payments;
 }) {
   "use no memo"; // Limitation of react compiler w. tanstack table.
 
@@ -463,7 +458,7 @@ export default function PaymentDataTable({
   );
 }
 
-function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
+function DraggableRow({ row }: { row: Row<Payment> }) {
   const { transform, transition, setNodeRef, isDragging } = useSortable({
     id: row.original.id,
   });
