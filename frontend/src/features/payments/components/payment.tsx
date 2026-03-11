@@ -25,10 +25,14 @@ import { useUpdatePayment } from "../api/update-payment";
 
 export default function PaymentDrawer({
   item = undefined,
-  children,
+  children = undefined,
+  open = false,
+  onOpenChange = () => {},
 }: {
   item?: Payment;
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const createPaymentMutation = useCreatePayment();
   const updatePaymentMutation = useUpdatePayment();
@@ -57,8 +61,12 @@ export default function PaymentDrawer({
   });
 
   return (
-    <Drawer direction="right">
-      <DrawerTrigger asChild>{children}</DrawerTrigger>
+    <Drawer
+      direction="right"
+      open={open !== undefined ? open : undefined}
+      onOpenChange={onOpenChange}
+    >
+      {children && <DrawerTrigger asChild>{children}</DrawerTrigger>}
       <DrawerContent>
         <DrawerHeader className="gap-1">
           {item?.id ? (

@@ -58,6 +58,8 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { type Payment, type Payments } from "@/types/api";
@@ -69,6 +71,7 @@ import {
   ChevronsRightIcon,
   Edit,
   GripVerticalIcon,
+  MoreVerticalIcon,
 } from "lucide-react";
 import PaymentDrawer from "./payment";
 
@@ -159,31 +162,43 @@ const columns: ColumnDef<Payment>[] = [
       </div>
     ),
   },
-  // {
-  //   id: "actions",
-  //   cell: () => (
-  //     <DropdownMenu>
-  //       <DropdownMenuTrigger
-  //         render={
-  //           <Button
-  //             variant="ghost"
-  //             className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
-  //             size="icon"
-  //           />
-  //         }
-  //       >
-  //         <MoreVerticalIcon />
-  //         <span className="sr-only">Open menu</span>
-  //       </DropdownMenuTrigger>
-  //       <DropdownMenuContent align="end" className="w-32">
-  //         <DropdownMenuItem>Edit</DropdownMenuItem>
-  //         <DropdownMenuItem>Favorite</DropdownMenuItem>
-  //         <DropdownMenuSeparator />
-  //         <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-  //       </DropdownMenuContent>
-  //     </DropdownMenu>
-  //   ),
-  // },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <PaymentDrawer
+            item={row.original}
+            open={open}
+            onOpenChange={setOpen}
+          />
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  className="data-[state=open]:bg-muted text-muted-foreground flex size-8"
+                  size="icon"
+                />
+              }
+            >
+              <MoreVerticalIcon />
+              <span className="sr-only">Open menu</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-32">
+              <DropdownMenuItem onClick={() => setOpen(true)}>
+                Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem>Favorite</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </>
+      );
+    },
+  },
 ];
 export default function PaymentDataTable({
   data: initialData,
