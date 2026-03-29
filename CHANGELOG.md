@@ -1,3 +1,16 @@
+## [1.7.0](https://github.com/axelcarl/go-dashboard/compare/v1.6.1...v1.7.0) (2026-03-29)
+
+### Features
+
+* data in section cards ([f4ad855](https://github.com/axelcarl/go-dashboard/commit/f4ad85575acdcc705c01fe7b815a4e8fa10a63bc))
+* update payments ([649a90d](https://github.com/axelcarl/go-dashboard/commit/649a90d0b4cba6da60279411808a4db38d399736))
+* usable edit action ([58da975](https://github.com/axelcarl/go-dashboard/commit/58da9758638ffcd5a665be2a42c95a1a4890c4c1))
+
+### Bug Fixes
+
+* payment drawer default values ([55efa44](https://github.com/axelcarl/go-dashboard/commit/55efa447c75fd6c1fc1618edfe64b1bcc3b55ecd))
+* remove clutter ([cfd351c](https://github.com/axelcarl/go-dashboard/commit/cfd351cea641f0049fba8dea59654e71ae1976ce))
+
 ## [1.6.1](https://github.com/axelcarl/go-dashboard/compare/v1.6.0...v1.6.1) (2026-02-28)
 
 ### Bug Fixes
