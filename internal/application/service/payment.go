@@ -63,3 +63,23 @@ func (s *PaymentService) Create(m *mutation.CreatePaymentMutation) (*mutation.Cr
 
 	return &mutationResult, err
 }
+
+func (s *PaymentService) Update(m *mutation.UpdatePaymentMutation) (*mutation.UpdatePaymentMutationResult, error) {
+	payment := entity.NewPayment(m.Sender, m.Recipient, m.Amount)
+	validatedPayment, err := entity.NewValidatedPayment(payment)
+	if err != nil {
+		return nil, err
+	}
+
+	validatedPayment.ID = int32(m.ID)
+
+	updatedPayment, err := s.paymentRepository.Update(validatedPayment)
+	if err != nil {
+		return nil, err
+	}
+
+	var mutationResult mutation.UpdatePaymentMutationResult
+	mutationResult.Result = mapper.NewPaymentResultFromEntity(updatedPayment)
+
+	return &mutationResult, nil
+}

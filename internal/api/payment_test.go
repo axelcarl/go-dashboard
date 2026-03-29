@@ -17,6 +17,7 @@ type mockPaymentService struct {
 	findFn         func(q *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error)
 	findMultipleFn func() (*query.GetPaymentsQueryResult, error)
 	create         func(m *mutation.CreatePaymentMutation) (*mutation.CreatePaymentMutationResult, error)
+	update         func(m *mutation.UpdatePaymentMutation) (*mutation.UpdatePaymentMutationResult, error)
 }
 
 func (m *mockPaymentService) FindPaymentByID(q *query.GetPaymentByIDQuery) (*query.GetPaymentByIdQueryResult, error) {
@@ -29,6 +30,10 @@ func (m *mockPaymentService) List() (*query.GetPaymentsQueryResult, error) {
 
 func (m *mockPaymentService) Create(mut *mutation.CreatePaymentMutation) (*mutation.CreatePaymentMutationResult, error) {
 	return m.Create(mut)
+}
+
+func (m *mockPaymentService) Update(mut *mutation.UpdatePaymentMutation) (*mutation.UpdatePaymentMutationResult, error) {
+	return m.update(mut)
 }
 
 func TestGetPaymentByID_Ok(t *testing.T) {

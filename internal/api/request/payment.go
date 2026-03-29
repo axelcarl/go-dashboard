@@ -38,3 +38,26 @@ func (body *PaymentRequest) ToCreatePaymentMutation() (*mutation.CreatePaymentMu
 
 	return mut, nil
 }
+
+func (body *PaymentRequest) ToUpdatePaymentMutation(ID int) (*mutation.UpdatePaymentMutation, error) {
+	if body.Sender == "" {
+		return nil, ErrSenderEmpty
+	}
+
+	if body.Recipient == "" {
+		return nil, ErrRecipientEmpty
+	}
+
+	if body.Amount <= 0 {
+		return nil, ErrInvalidAmount
+	}
+
+	mut := &mutation.UpdatePaymentMutation{
+		ID:        ID,
+		Sender:    body.Sender,
+		Recipient: body.Recipient,
+		Amount:    body.Amount,
+	}
+
+	return mut, nil
+}

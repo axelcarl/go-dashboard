@@ -22,6 +22,7 @@ services:
       - ./go.sum:/dashboard/go.sum
       - ./.air.toml:/dashboard/.air.toml
       - ./.env:/dashboard/.env
+      - go_mod_cache:/go/pkg/mod
     networks:
       - go_dashboard
   frontend:
@@ -30,7 +31,7 @@ services:
     working_dir: /frontend
     volumes:
       - ./frontend/:/frontend/
-      - /frontend/node_modules
+      - node_modules:/frontend/node_modules
     depends_on:
       - app
     ports:
@@ -40,3 +41,7 @@ services:
     command: sh -c "npm install && npm run dev"
 networks:
   go_dashboard:
+
+volumes:
+  go_mod_cache:
+  node_modules:

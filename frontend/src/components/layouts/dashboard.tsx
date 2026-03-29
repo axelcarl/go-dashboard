@@ -31,7 +31,6 @@ import PaymentDrawer from "@/features/payments/components/payment";
 import PaymentChart from "@/features/payments/components/payment-chart";
 import {
   LayersIcon,
-  MailIcon,
   PanelLeftIcon,
   PlusCircleIcon,
   SettingsIcon,
@@ -40,6 +39,7 @@ import {
 } from "lucide-react";
 import { ModeToggle } from "../mode-toggle";
 import { Link } from "../ui/link";
+import { useGetPayments } from "@/features/payments/api/get-payments";
 
 export default function DashboardLayout({
   children,
@@ -119,14 +119,6 @@ function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   );
 }
 
-const payment = {
-  id: 1,
-  sender: "",
-  recipient: "",
-  amount: 0,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
 function NavMain({
   items,
 }: {
@@ -140,7 +132,7 @@ function NavMain({
       <SidebarGroupContent className="flex flex-col gap-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex items-center gap-2">
-            <PaymentDrawer item={payment}>
+            <PaymentDrawer>
               <SidebarMenuButton
                 tooltip="Quick Create"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear"
@@ -149,14 +141,6 @@ function NavMain({
                 <span>Send Payment</span>
               </SidebarMenuButton>
             </PaymentDrawer>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-            >
-              <MailIcon />
-              <span className="sr-only">Inbox</span>
-            </Button>
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>
@@ -265,13 +249,17 @@ function SiteHeader() {
 }
 
 function SectionCards() {
+  const payments = useGetPayments();
+
   return (
     <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4  *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>Total Revenue</CardDescription>
+          <CardDescription>Payment Volume</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            $1,250.00
+            $
+            {payments.data?.reduce((acc, payment) => acc + payment.amount, 0) ??
+              "..."}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
@@ -291,9 +279,9 @@ function SectionCards() {
       </Card>
       <Card className="@container/card">
         <CardHeader>
-          <CardDescription>New Payments</CardDescription>
+          <CardDescription>Total Payments</CardDescription>
           <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
-            1,234
+            {payments.data?.length ?? "..."}
           </CardTitle>
           <CardAction>
             <Badge variant="outline">
