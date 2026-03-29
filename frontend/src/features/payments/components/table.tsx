@@ -190,7 +190,6 @@ const columns: ColumnDef<Payment>[] = [
               <DropdownMenuItem onClick={() => setOpen(true)}>
                 Edit
               </DropdownMenuItem>
-              <DropdownMenuItem>Favorite</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
             </DropdownMenuContent>

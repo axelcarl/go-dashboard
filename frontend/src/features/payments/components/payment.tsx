@@ -26,8 +26,8 @@ import { useUpdatePayment } from "../api/update-payment";
 export default function PaymentDrawer({
   item = undefined,
   children = undefined,
-  open = false,
-  onOpenChange = () => {},
+  open = undefined,
+  onOpenChange = undefined,
 }: {
   item?: Payment;
   children?: React.ReactNode;
